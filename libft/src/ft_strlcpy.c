@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/15 16:30:05 by mortins-          #+#    #+#             */
-/*   Updated: 2023/05/17 15:35:57 by mortins-         ###   ########.fr       */
+/*   Created: 2022/10/28 13:38:13 by mortins-          #+#    #+#             */
+/*   Updated: 2022/11/15 12:48:09 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include"libft.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <fcntl.h>
-# include <errno.h>
-# include <string.h>
+//	Copies up to 'size' - 1 characters from the string 'src' to 'dst'
 
-typedef struct s_pipex
+unsigned int	ft_strlcpy(char *dest, const char *src, size_t size)
 {
-	char	*path_in;
-	char	*path_out;
-	char	*cmd1;
-	char	*par1;
-	char	*cmd2;
-	char	*par2;
-}	t_pipex;
+	unsigned int	i;
 
-char	**ft_split(char const *s, char c);
-
-#endif
+	i = 0;
+	if (size)
+	{
+		while (src[i] && (i < size - 1))
+		{
+			dest[i] = src[i];
+			i++;
+		}
+		dest[i] = '\0';
+	}
+	return (ft_strlen(src));
+}

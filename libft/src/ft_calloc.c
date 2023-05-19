@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 12:40:09 by mortins-          #+#    #+#             */
-/*   Updated: 2023/05/19 16:29:49 by mortins-         ###   ########.fr       */
+/*   Created: 2022/11/04 16:37:33 by mortins-          #+#    #+#             */
+/*   Updated: 2023/05/19 16:28:41 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"libft.h"
 
-//	Returns the number of bytes in 's'
+//	Allocates memory for an array of 'n' elements of 'size' bytes each
+//	The memory  is  set  to zero
+//	Returns a pointer to the allocated memory
 
-size_t	ft_strlen(const char *s)
+void	*ft_calloc(size_t n, size_t size)
 {
-	size_t	i;
+	void	*buff;
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	if ((n * size) > 2147483647)
+		return (0);
+	buff = (void *) malloc (size * n);
+	if (!buff)
+		return (NULL);
+	ft_bzero(buff, n * size);
+	return (buff);
 }

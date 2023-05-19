@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 12:40:09 by mortins-          #+#    #+#             */
-/*   Updated: 2023/05/19 16:29:49 by mortins-         ###   ########.fr       */
+/*   Created: 2022/11/04 17:21:39 by mortins-          #+#    #+#             */
+/*   Updated: 2023/05/19 16:29:56 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"libft.h"
 
-//	Returns the number of bytes in 's'
+//	Returns a substring from the string 's'
+//	The substring begins at index 'c' and is of maximum size 'n'
 
-size_t	ft_strlen(const char *s)
+char	*ft_substr(char const *str, unsigned int c, size_t n)
 {
+	char	*sub;
 	size_t	i;
 
+	if (ft_strlen(str) <= c)
+		n = 0;
+	else if (n > (ft_strlen(str) - c))
+		n = ft_strlen(str) - c;
+	sub = (char *)malloc(sizeof(char) * (n + 1));
+	if (!sub)
+		return (0);
 	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	while (i < n)
+		sub[i++] = str[c++];
+	sub[i] = '\0';
+	return (sub);
 }

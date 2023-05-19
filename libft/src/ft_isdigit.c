@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 12:40:09 by mortins-          #+#    #+#             */
-/*   Updated: 2023/05/19 16:29:49 by mortins-         ###   ########.fr       */
+/*   Created: 2022/10/31 12:50:31 by mortins-          #+#    #+#             */
+/*   Updated: 2023/05/19 16:28:48 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"libft.h"
 
-//	Returns the number of bytes in 's'
+//	Checks if it was given a digit
 
-size_t	ft_strlen(const char *s)
+int	ft_isdigit(int c)
 {
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	return (c >= '0' && c <= '9');
 }

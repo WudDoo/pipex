@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 12:40:09 by mortins-          #+#    #+#             */
-/*   Updated: 2023/05/19 16:29:49 by mortins-         ###   ########.fr       */
+/*   Created: 2022/11/02 17:39:58 by mortins-          #+#    #+#             */
+/*   Updated: 2023/05/19 16:29:26 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"libft.h"
 
-//	Returns the number of bytes in 's'
+//	Copies 'n' bytes from memory area 'src' to memory area 'dest'
+//	The memory areas must not overlap
 
-size_t	ft_strlen(const char *s)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	size_t	i;
 
 	i = 0;
-	while (s[i])
+	if (!dest && !src)
+		return (NULL);
+	while (i < n)
+	{
+		((char *)dest)[i] = ((const char *)src)[i];
 		i++;
-	return (i);
+	}
+	return (dest);
 }

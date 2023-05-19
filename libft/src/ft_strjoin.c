@@ -1,25 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 12:40:09 by mortins-          #+#    #+#             */
-/*   Updated: 2023/05/19 16:29:49 by mortins-         ###   ########.fr       */
+/*   Created: 2022/11/07 14:34:27 by mortins-          #+#    #+#             */
+/*   Updated: 2023/05/19 16:29:44 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"libft.h"
 
-//	Returns the number of bytes in 's'
+//	Returns a new string, resulting of the concatenation of 's1' and 's2'
 
-size_t	ft_strlen(const char *s)
+char	*ft_strjoin(const char *s1, const char *s2)
 {
-	size_t	i;
+	char	*new;
+	int		i;
+	int		j;
 
 	i = 0;
-	while (s[i])
+	j = 0;
+	new = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)) + 1);
+	if (!new)
+		return (0);
+	while (s1[i])
+	{
+		new[i] = s1[i];
 		i++;
-	return (i);
+	}
+	while (s2[j])
+		new[i++] = s2[j++];
+	new[i] = '\0';
+	return (new);
 }

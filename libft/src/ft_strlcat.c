@@ -1,25 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 12:40:09 by mortins-          #+#    #+#             */
-/*   Updated: 2023/05/19 16:29:49 by mortins-         ###   ########.fr       */
+/*   Created: 2022/10/28 14:52:01 by mortins-          #+#    #+#             */
+/*   Updated: 2023/05/19 16:29:46 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"libft.h"
 
-//	Returns the number of bytes in 's'
+//	Appends the string 'src' to the end of 'dest'
+//	It will append at most 'size' - strlen('dest') - 1 bytes
 
-size_t	ft_strlen(const char *s)
+unsigned int	ft_strlcat(char *dest, const char *src, size_t size)
 {
-	size_t	i;
+	size_t	d;
+	size_t	s;
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	d = ft_strlen(dest);
+	s = 0;
+	if (size <= d)
+		return (size + ft_strlen(src));
+	while (src[s] && d + s < (size - 1))
+	{
+		dest[d + s] = src[s];
+		s++;
+	}
+	dest[d + s] = '\0';
+	return (ft_strlen(src) + d);
 }

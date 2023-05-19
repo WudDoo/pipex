@@ -1,25 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 12:40:09 by mortins-          #+#    #+#             */
-/*   Updated: 2023/05/19 16:29:49 by mortins-         ###   ########.fr       */
+/*   Created: 2022/11/07 14:59:55 by mortins-          #+#    #+#             */
+/*   Updated: 2023/05/19 16:29:55 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"libft.h"
 
-//	Returns the number of bytes in 's'
+//	Returns a copy of 'str' with the characters specified in 'set' removed
+//	from the beginning and the end of the string
 
-size_t	ft_strlen(const char *s)
+char	*ft_strtrim(const char *s, const char *set)
 {
-	size_t	i;
+	char	*buff;
+	int		i;
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	while (*s && ft_strchr(set, *s))
+		s++;
+	i = ft_strlen(s) - 1;
+	while (i > 0 && ft_strchr(set, s[i]))
+		i--;
+	i++;
+	buff = (char *)malloc(sizeof(char) * (i + 1));
+	if (!buff)
+		return (0);
+	ft_strlcpy(buff, s, i + 1);
+	return (buff);
 }

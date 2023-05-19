@@ -5,13 +5,13 @@ CFLAGS	=	-Wall -Wextra -Werror -g
 RM		=	rm -rf
 
 C_FILES	=	pipex.c
-LFT_SRCS	=	
 
 LFT_DIR	=	libft
 SRC_DIR	=	src
 OBJ_DIR	=	obj
 
-LFT_OBJS	=	libft/obj/%.o
+LIBFT	=	$(LFT_DIR)/libft.a
+
 SRCS	=	$(addprefix $(SRC_DIR)/, $(C_FILES))
 OBJS	=	$(addprefix $(OBJ_DIR)/, $(C_FILES:%.c=%.o))
 
@@ -19,25 +19,25 @@ OBJS	=	$(addprefix $(OBJ_DIR)/, $(C_FILES:%.c=%.o))
 
 all:	$(NAME)
 
-$(NAME):	$(LFT_OBJS) $(OBJS)
-	$(CC) $(CFLAGS) $(SRCS) -o $@
+$(NAME):	$(LIBFT) $(OBJS)
+	$(CC) $(CFLAGS) $(SRCS) $(LIBFT) -o $@
 
 $(OBJ_DIR)/%.o:	$(SRCS)
 	@mkdir -p $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -o $@ -c $<
 
-$(LFT_OBJS):
-	@make -C $(LFT_DIR)
+$(LIBFT):
+	@make --no-print-directory -C $(LFT_DIR)
 
 val:	$(NAME)
-	@valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./pipex infile "wc -l" "ls" outfile
+	@valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./pipex infile "a" "b" outfile
 
 clean:
 	@$(RM) $(OBJ_DIR)
-	@make clean -C $(LFT_DIR)
+	@make clean --no-print-directory -C $(LFT_DIR)
 
 fclean:	clean
 	@$(RM) $(NAME)
-	@$(RM) $(LFT_DIR)/libft.a
+	@$(RM) $(LIBFT)
 
 re:	fclean all

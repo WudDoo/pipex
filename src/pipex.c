@@ -6,53 +6,99 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:28:46 by mortins-          #+#    #+#             */
-/*   Updated: 2023/05/17 15:58:53 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/05/19 20:44:47 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	*get_cmd_paths(char **envp)
+void	free_pipex(t_pipex *pipex)
 {
-	char	*path;
-	int		line;
-	int		character;
+	int	i;
 
-	line = 0;
-	path = "PATH=";
-	while (envp[line])
+	i = 0;
+	close(pipex->infile);
+	close(pipex->outfile);
+	while (pipex->directories[i])
+		free(pipex->directories[i++]);
+	free(pipex->directories);
+}
+
+void	free_child(t_pipex *pipex)
+{
+	int	i;
+
+	i = 0;
+	while (pipex->cmd[i])
+		free(pipex->cmd[i++]);
+	free(pipex->cmd);
+	free(pipex->cmd_path);
+}
+
+void	error_msg(char	*msg, t_pipex pipex)
+{
+	ft_printf("Error: %s\n", msg);
+	free_pipex(&pipex);
+	exit (0);
+}
+
+char	*get_cmd_path(t_pipex pipex, char *cmd)
+{
+	char	*tmp;
+	char	*tmp2;
+	int		i;
+
+	i = 0;
+	while (pipex.directories[i])
 	{
-		character = 0;
-		if (envp[line][character] == path[character])
-		{
-			while (envp[line][character] == path[character] && path[character])
-				character++;
-			if (!path[character])
-				break ;
-		}
+		tmp = ft_strjoin(pipex.directories[i], "/");
+		tmp2 = ft_strjoin(tmp, cmd);
+		free(tmp);
+		if (access(tmp2, 0) == 0)
+			return (tmp2);
+		free(tmp2);
+		i++;
 	}
-	return (NULL);
+	free_child(&pipex);
+	error_msg("Command not found.", pipex);
+	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	pipex;
-	int		infile;
-	int		outfile;
 
-	if (argc != 5)
-		return (write(1, "Wrong number of arguments.\n", 27));
+	if (argc < 5)
+		return (ft_printf("Not enough arguments.\n"));
 	if (access(argv[1], F_OK | R_OK))
-		return (printf("%s \n", strerror(errno)));
-	pipex.path_in = argv[1];
-	pipex.path_out = argv[4];
-	infile = open(pipex.path_in, O_RDONLY);
-	outfile = open(pipex.path_out, O_RDWR | O_CREAT | O_TRUNC, 00777);
-	pipex.cmd1 = argv[2];
-	pipex.cmd2 = argv[3];
-	dup2(infile, 0);
-	dup2(outfile, 1);
-	printf("%s\n", envp[1]);
-	close(infile);
-	close(outfile);
+		return (ft_printf("Error: %s \n", strerror(errno)));
+	pipex.infile = open(argv[1], O_RDONLY);
+	pipex.outfile = open(argv[4], O_RDWR | O_CREAT | O_TRUNC, 00777);
+	pipex.directories = get_directories(envp);
+	pipe(pipex.fd);
+	pipex.pid1 = fork();
+	if (pipex.pid1 == 0)
+	{
+		pipex.cmd = ft_split(argv[2], ' ');
+		pipex.cmd_path = get_cmd_path(pipex, pipex.cmd[0]);
+		dup2(pipex.fd[1], 1);
+		close(pipex.fd[0]);
+		dup2(pipex.infile, 0);
+		execve(pipex.cmd_path, pipex.cmd, envp);
+	}
+	pipex.pid2 = fork();
+	if (pipex.pid2 == 0)
+	{
+		pipex.cmd = ft_split(argv[3], ' ');
+		pipex.cmd_path = get_cmd_path(pipex, pipex.cmd[0]);
+		dup2(pipex.fd[0], 0);
+		close(pipex.fd[1]);
+		dup2(pipex.outfile, 1);
+		execve(pipex.cmd_path, pipex.cmd, envp);
+	}
+	close(pipex.fd[1]);
+	close(pipex.fd[0]);
+	waitpid(pipex.pid1, NULL, 0);
+	waitpid(pipex.pid2, NULL, 0);
+	free_pipex(&pipex);
 }

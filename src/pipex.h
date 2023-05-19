@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:30:05 by mortins-          #+#    #+#             */
-/*   Updated: 2023/05/17 15:35:57 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/05/19 20:22:42 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,21 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <string.h>
+# include "../libft/src/libft.h"
+# include <sys/wait.h>
 
 typedef struct s_pipex
 {
-	char	*path_in;
-	char	*path_out;
-	char	*cmd1;
-	char	*par1;
-	char	*cmd2;
-	char	*par2;
+	pid_t		pid1;
+	pid_t		pid2;
+	int			fd[2];
+	int			infile;
+	int			outfile;
+	char		**directories;
+	char		**cmd;
+	char		*cmd_path;
 }	t_pipex;
 
-char	**ft_split(char const *s, char c);
+char	**get_directories(char **envp);
 
 #endif

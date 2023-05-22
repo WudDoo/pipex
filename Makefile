@@ -1,16 +1,15 @@
 NAME	=	pipex
 
 CC		=	@cc
-CFLAGS	=	-Wall -Wextra -Werror -g
+CFLAGS	=	-Wall -Wextra -Werror -g #-fsanitize=address	
 RM		=	rm -rf
 
-C_FILES	=	pipex.c pipex2.c
+C_FILES	=	pipex.c cmd_finder.c frees.c
 
 LFT_DIR	=	libft
 SRC_DIR	=	src
 OBJ_DIR	=	obj
 
-# LIBFT static library
 LIBFT	=	$(LFT_DIR)/libft.a
 
 SRCS	=	$(addprefix $(SRC_DIR)/, $(C_FILES))
@@ -20,22 +19,20 @@ OBJS	=	$(addprefix $(OBJ_DIR)/, $(C_FILES:%.c=%.o))
 
 all:	$(NAME)
 
-# Compile executable
 $(NAME):	$(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $(SRCS) $(LIBFT) -o $@
 
-# Compile object files
 $(OBJ_DIR)/%.o:	$(SRCS)
 	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $<
 
-# Compile libft
 $(LIBFT):
 	@make --no-print-directory -C $(LFT_DIR)
 
-# Run valgrind
+# bonus:
+
 val:	$(NAME)
-	@valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./pipex infile "ls -l" "wc -l" outfile
+	@valgrind --leak-check=full --trace-children=yes --show-leak-kinds=all ./pipex infile "ls -l" "wc -l" outfile
 
 clean:
 	@$(RM) $(OBJ_DIR)

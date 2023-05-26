@@ -15,7 +15,7 @@ C_FILES = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.
 
 SRC_DIR	=	src
 
-SRCS	=	$(addprefix $(SRC_DIR)/, $(C_FILES))
+SRCS	=	$(C_FILES:%.c=$(SRC_DIR)/%.c)
 OBJS	=	$(SRCS:$(SRC_DIR)/%.c=%.o)
 
 .PHONY: all clean fclean re

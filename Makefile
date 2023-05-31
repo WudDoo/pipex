@@ -57,4 +57,4 @@ fclean:	clean
 
 re:	fclean all
 
-#valgrind --leak-check=full --trace-children=yes --show-leak-kinds=all ./pipex infile cmd1 cmd2 outfile
+#valgrind --leak-check=full --trace-children=yes --show-leak-kinds=all

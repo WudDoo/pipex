@@ -6,38 +6,26 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 18:01:28 by mortins-          #+#    #+#             */
-/*   Updated: 2023/05/30 18:15:00 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/05/31 14:54:25 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-int	command_exists(char *cmd_raw, char **envp)
+void	pipe_parser(int argc, char **argv)
 {
-	char	**directories;
-	char	*cmd_path;
-	char	**cmd;
+	int	i;
 
-	directories = get_directories(envp);
-	cmd = ft_split(cmd_raw, ' ');
-	if (!cmd[0])
+	i = 3;
+	while (i != argc - 2)
 	{
-		free_array(directories);
-		free_array(cmd);
-		ft_putstr_fd("Error: parse error near \"\".\n", STDERR_FILENO);
-		exit (0);
+		if (!argv[i][0])
+		{
+			ft_printf("Error: parse error near  \"\".\n");
+			exit (0);
+		}
+		i++;
 	}
-	cmd_path = get_cmd_path(directories, cmd[0]);
-	if (cmd_path == 0)
-	{
-		free_array(directories);
-		free_array(cmd);
-		exit (0);
-	}
-	free(cmd_path);
-	free_array(cmd);
-	free_array(directories);
-	return (1);
 }
 
 char	**get_directories(char **envp)

@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:28:46 by mortins-          #+#    #+#             */
-/*   Updated: 2023/05/26 17:57:21 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/05/31 13:53:49 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,5 @@ int	main(int argc, char **argv, char **envp)
 	pid = fork();
 	if (pid == 0)
 		child(argv, envp, fd);
-	waitpid(pid, NULL, 0);
 	parent(argv, envp, fd);
 }

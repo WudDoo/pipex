@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 16:37:11 by mortins-          #+#    #+#             */
-/*   Updated: 2023/05/26 18:14:46 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/05/31 14:24:41 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	main(int argc, char **argv, char **envp)
 		return (ft_printf("Error: Wrong number of arguments.\n"));
 	if (access(argv[1], F_OK | R_OK) == -1)
 		return (ft_printf("Error: %s\n", strerror(errno)));
+	pipe_parser(argc, argv);
 	infile = open(argv[1], O_RDONLY);
 	dup2(infile, 0);
 	close(infile);

@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 16:37:59 by mortins-          #+#    #+#             */
-/*   Updated: 2023/05/26 18:14:32 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/05/31 14:26:25 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 void	process(char *cmd, char **envp);
 void	execute(char *cmd_raw, char **envp);
-int		command_exists(char *cmd_raw, char **envp);
+void	pipe_parser(int argc, char **argv);
 char	**get_directories(char **envp);
 char	*get_cmd_path(char **directories, char *cmd);
 void	free_array(char	**array);
